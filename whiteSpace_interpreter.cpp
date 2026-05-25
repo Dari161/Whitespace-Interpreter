@@ -208,8 +208,8 @@ void arith_mult() {
 
 void arith_div() {
     if (mystack.size() < 2) throw runtime_error("Must have 2 values on stack to divide them");
-    float a = (float)pop();
-    float b = (float)pop();
+    float a = static_cast<float>(pop());
+    float b = static_cast<float>(pop());
     if (a == 0) throw runtime_error("Division by 0");
     mystack.push_back(floor(b / a)); // floor is needed so division can floor-division can wrok for negatives too
     ++pc;
