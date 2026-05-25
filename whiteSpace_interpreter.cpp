@@ -75,7 +75,7 @@ private:
         case 'E': case 'e': return 14;
         case 'F': case 'f': return 15;
         default:
-            throw "Runtime error: Invalid hexadecimal character";
+            throw runtime_error("Invalid hexadecimal character");
         }
     }
 public:
@@ -84,7 +84,7 @@ public:
     // Note: It does not support minus numbers, nor binary- or octal numeral system
 
     const int readNum() {
-        if (input[pos] == '\0') throw "Runtime error: Input was empty when trying to read number";
+        if (input[pos] == '\0') throw runtime_error("Input was empty when trying to read number");
         if (input[pos] == '0') {
             ++pos;
             if (input[pos] == '\n') {
@@ -102,12 +102,12 @@ public:
                 ++pos; // eat '\n'
                 return num;
             }
-            throw "Runtime error : Input contains unexpected character when trying to read number";
+            throw runtime_error("Input contains unexpected character when trying to read number");
         }
         int num = 0;
         while (input[pos] != '\n') {
             num *= 10;
-            if (input[pos] < '0' || input[pos] > '9') throw "Runtime error: Invalid decimal character";
+            if (input[pos] < '0' || input[pos] > '9') throw runtime_error("Invalid decimal character");
             num += input[pos] - '0';
             ++pos;
         }
@@ -116,7 +116,7 @@ public:
     }
 
     const char readChar() {
-        if (input[pos] == '\0') throw "Runtime error : input was empty when trying to read a character";
+        if (input[pos] == '\0') throw runtime_error("Input was empty when trying to read a character");
         char ret = input[pos];
         ++pos;
         return ret;
@@ -144,14 +144,14 @@ void stack_push() {
 }
 
 void stack_duplicate() {
-    if (arg >= mystack.size()) throw "Runtime error: range out of bounds";
+    if (arg >= mystack.size()) throw runtime_error"Range out of bounds");
     mystack.push_back(mystack[mystack.size() - arg - 1]);
     ++pc;
 }
 
 void stack_discard() {
     if (arg < 0 || arg >= mystack.size()) { // remove everything but the top value
-        if (mystack.size() < 0) throw "Runtime error: stack is empty";
+        if (mystack.size() < 0) throw runtime_error("Stack is empty");
         int top = pop();
         mystack.clear();
         mystack.push_back(top);
@@ -166,13 +166,13 @@ void stack_discard() {
 }
 
 void stack_duplicateTop() {
-    if (mystack.size() < 1) throw "Runtime error: cant duplicate top of empty stack";
+    if (mystack.size() < 1) throw runtime_error("Can't duplicate top of empty stack");
     mystack.push_back(mystack[mystack.size() - 1]);
     ++pc;
 }
 
 void stack_swapTop() {
-    if (mystack.size() < 2) throw "Runtime error: must have 2 values on stack to swap them";
+    if (mystack.size() < 2) throw runtime_error("Must have 2 values on stack to swap them");
     int tmp = mystack[mystack.size() - 1];
     mystack[mystack.size() - 1] = mystack[mystack.size() - 2];
     mystack[mystack.size() - 2] = tmp;
@@ -180,7 +180,7 @@ void stack_swapTop() {
 }
 
 void stack_discardTop() {
-    if (mystack.size() < 1) throw "Runtime error: can't discard top of empty stack";
+    if (mystack.size() < 1) throw runtime_error("Can't discard top of empty stack");
 
     mystack.pop_back();
 
@@ -189,37 +189,37 @@ void stack_discardTop() {
 
 // Arithmetic
 void arith_add() {
-    if (mystack.size() < 2) throw "Runtime error: must have 2 values on stack to add them";
+    if (mystack.size() < 2) throw runtime_error("Must have 2 values on stack to add them");
     mystack.push_back(pop() + pop());
     ++pc;
 }
 
 void arith_sub() {
-    if (mystack.size() < 2) throw "Runtime error : must have 2 values on stack to subtract them";
+    if (mystack.size() < 2) throw runtime_error("Must have 2 values on stack to subtract them");
     mystack.push_back(-pop() + pop());
     ++pc;
 }
 
 void arith_mult() {
-    if (mystack.size() < 2) throw "Runtime error: must have 2 values on stack to multiply them";
+    if (mystack.size() < 2) throw runtime_error("Must have 2 values on stack to multiply them");
     mystack.push_back(pop() * pop());
     ++pc;
 }
 
 void arith_div() {
-    if (mystack.size() < 2) throw "Runtime error: must have 2 values on stack to divide them";
+    if (mystack.size() < 2) throw runtime_error("Must have 2 values on stack to divide them");
     float a = (float)pop();
     float b = (float)pop();
-    if (a == 0) throw "Runtime error: division by 0";
+    if (a == 0) throw runtime_error("Division by 0");
     mystack.push_back(floor(b / a)); // floor is needed so division can floor-division can wrok for negatives too
     ++pc;
 }
 
 void arith_mod() {
-    if (mystack.size() < 2) throw "Runtime error: must have 2 values on stack to modulo them";
+    if (mystack.size() < 2) throw runtime_error("Must have 2 values on stack to modulo them");
     int a = pop();
     int b = pop();
-    if (a == 0) throw "Runtime error: modulo by 0";
+    if (a == 0) throw runtime_error("Modulo by 0");
 
     int mod = b % a; // mod always gets the sign of b
     // 5 mod -3 should be -1
@@ -233,7 +233,7 @@ void arith_mod() {
 
 // Heap access
 void heap_set() {
-    if (mystack.size() < 2) throw "Runtime error: must have 2 values on stack to pop them";
+    if (mystack.size() < 2) throw runtime_error("Must have 2 values on stack to pop them");
     int a = pop();
     heap[pop()] = a;
     // in "heap[pop()] = pop()" the order of function evaluation is unspecified, meaning it depends on the complier
@@ -241,36 +241,36 @@ void heap_set() {
 }
 
 void heap_get() {
-    if (mystack.size() < 1) throw "Runtime error: must have 2 values on stack to pop them";
+    if (mystack.size() < 1) throw runtime_error("Must have 2 values on stack to pop them");
     map<int, int>::iterator it = heap.find(pop());
-    if (it == heap.end()) throw "Runtime error: No such adress in heap exists";
+    if (it == heap.end()) throw runtime_error("No such adress in heap exists");
     mystack.push_back(it->second); // it->second is the value
     ++pc;
 }
 
 // Input/Output
 void output_char() {
-    if (mystack.size() < 1) throw "Runtime error: must have a values on stack to output it as a char";
+    if (mystack.size() < 1) throw runtime_error("Must have a values on stack to output it as a char");
     //output as char
     output += static_cast<char>(pop() % 256);
     ++pc;
 }
 
 void output_num() {
-    if (mystack.size() < 1) throw "Runtime error: must have a values on stack to output it as a number";
+    if (mystack.size() < 1) throw runtime_error("Must have a values on stack to output it as a number");
     //output as num
     output += intToStr(pop());
     ++pc;
 }
 
 void input_char() {
-    if (mystack.size() < 1) throw "Runtime error: must have a values on stack to pop it";
+    if (mystack.size() < 1) throw runtime_error("Must have a values on stack to pop it");
     heap[pop()] = myReader.readChar();
     ++pc;
 }
 
 void input_num() {
-    if (mystack.size() < 1) throw "Runtime error: must have a values on stack to pop it";
+    if (mystack.size() < 1) throw runtime_error("Must have a values on stack to pop it");
     heap[pop()] = myReader.readNum();
     ++pc;
 }
@@ -286,7 +286,7 @@ void control_jump() {
 }
 
 void control_jumpIfZero() {
-    if (mystack.size() < 1) throw "Runtime error: must have a values on stack to test if it is zero";
+    if (mystack.size() < 1) throw runtime_error("Must have a values on stack to test if it is zero");
     if (pop() == 0) {
         pc = arg;
     } else {
@@ -295,7 +295,7 @@ void control_jumpIfZero() {
 }
 
 void control_jumpIfNegative() {
-    if (mystack.size() < 1) throw "Runtime error: must have a values on stack to test if it is negative";
+    if (mystack.size() < 1) throw runtime_error("Must have a values on stack to test if it is negative");
     if (pop() < 0) {
         pc = arg;
     } else {
@@ -304,7 +304,7 @@ void control_jumpIfNegative() {
 }
 
 void control_return() {
-    if (callStack.size() < 1) throw "Runtime error: Cannot return, because callstack is empty (no place to return to)";
+    if (callStack.size() < 1) throw runtime_error("Cannot return, because callstack is empty (no place to return to)");
     pc = callStack.back() + 1; // + 1, because it should not call the subroutine again but the instruction after it
     callStack.pop_back();
 }
@@ -312,7 +312,7 @@ void control_return() {
 void control_exit() {} // end program
 
 void unexpected_endOfProgram() {
-    throw "Runtime error: programcode ended unexpectedly (without control_exit statement)";
+    throw runtime_error("Programcode ended unexpectedly (without control_exit statement)");
 }
 
 // Lex and parse in one go
@@ -327,12 +327,12 @@ private:
         case '\t': sign = -1; ++pos; break;
         case ' ' : sign =  1; ++pos; break;
         default:
-            throw "Expected a number. Numbers must start with tab or space";
+            throw runtime_error("Expected a number. Numbers must start with tab or space");
         }
 
         int num = 0;
         while (code[pos] != '\n') {
-            if (code[pos] == '\0') throw "Unexpected end of code";
+            if (code[pos] == '\0') throw runtime_error("Unexpected end of code");
             num *= 2;
             num += (code[pos] == '\t'); // ch is either tab -> 1, or space -> 0
             ++pos;
@@ -344,7 +344,7 @@ private:
     const int makeLabel() {
         size_t num = 0;
         while (code[pos] != '\n') {
-            if (code[pos] == '\0') throw "Unexpected end of code";
+            if (code[pos] == '\0') throw runtime_error("Unexpected end of code");
             // This cannot be a binary representation of table like in makeNumber, since "" and " " are different labels, but in binary, is space is zero they would be equal
             // so I used a base 3 numeral system, where tab is 2 and space is 1
             num *= 3;
@@ -386,7 +386,7 @@ public:
                         res.push_back(Token{ stack_discard, makeNumber() });
                         break;
                     default:
-                        throw "Unexpected character";
+                        throw runtime_error("Unexpected character");
                     }
                     break;
                 case '\n':
@@ -402,11 +402,11 @@ public:
                         res.push_back(Token{ stack_discardTop, 0 });
                         ++pos; break;
                     default:
-                        throw "Unexpected character";
+                        throw runtime_error("Unexpected character");
                     }
                     break;
                 default:
-                    throw "Unexpected character";
+                    throw runtime_error("Unexpected character");
                 }
                 break;
             case '\t':
@@ -429,7 +429,7 @@ public:
                             res.push_back(Token{ arith_mult, 0 });
                             ++pos; break;
                         default:
-                            throw "Unexpected character";
+                            throw runtime_error("Unexpected character");
                         }
                         break;
                     case '\t':
@@ -442,11 +442,11 @@ public:
                             res.push_back(Token{ arith_mod, 0 });
                             ++pos; break;
                         default:
-                            throw "Unexpected character";
+                            throw runtime_error("Unexpected character");
                         }
                         break;
                     default:
-                        throw "Unexpected character";
+                        throw runtime_error("Unexpected character");
                     }
                     break;
                 case '\t':
@@ -460,7 +460,7 @@ public:
                         res.push_back(Token{ heap_get, 0 });
                         ++pos; break;
                     default:
-                        throw "Unexpected character";
+                        throw runtime_error("Unexpected character");
                     }
                     break;
                 case '\n':
@@ -477,7 +477,7 @@ public:
                             res.push_back(Token{ output_num, 0 });
                             ++pos; break;
                         default:
-                            throw "Unexpected character";
+                            throw runtime_error("Unexpected character");
                         }
                         break;
                     case '\t':
@@ -490,15 +490,15 @@ public:
                             res.push_back(Token{ input_num, 0 });
                             ++pos; break;
                         default:
-                            throw "Unexpected character";
+                            throw runtime_error("Unexpected character");
                         }
                         break;
                     default:
-                        throw "Unexpected character";
+                        throw runtime_error("Unexpected character");
                     }
                     break;
                 default:
-                    throw "Unexpected character";
+                    throw runtime_error("Unexpected character");
                 }
                 break;
             case '\n':
@@ -512,7 +512,7 @@ public:
                         ++pos;
                     {
                         size_t label = makeLabel();
-                        if (labels.find(label) != labels.end()) throw "Label already exists"; // check if already exists
+                        if (labels.find(label) != labels.end()) throw runtime_error("Label already exists"); // check if already exists
                         labels[label] = res.size();
                     }
                         break;
@@ -525,7 +525,7 @@ public:
                         res.push_back(Token{ control_jump, makeLabel() });
                         break;
                     default:
-                        throw "Unexpected character";
+                        throw runtime_error("Unexpected character");
                     }
                     break;
                 case '\t':
@@ -543,7 +543,7 @@ public:
                         res.push_back(Token{ control_return, 0 });
                         ++pos; break;
                     default:
-                        throw "Unexpected character";
+                        throw runtime_error("Unexpected character");
                     }
                     break;
                 case '\n':
@@ -553,15 +553,15 @@ public:
                         res.push_back(Token{ control_exit, 0 });
                         ++pos; break;
                     default:
-                        throw "Unexpected character";
+                        throw runtime_error("Unexpected character");
                     }
                     break;
                 default:
-                    throw "Unexpected character";
+                    throw runtime_error("Unexpected character");
                 }
                 break;
             default:
-                throw "Unexpected character";
+                throw runtime_error("Unexpected character");
             }
 
             if (pos >= code.size() - 1) break; // IDK if needed
@@ -575,7 +575,7 @@ public:
                 tok.function == control_jumpIfZero ||
                 tok.function == control_jumpIfNegative) {
                 map<size_t, size_t>::iterator it = labels.find(tok.value);
-                if (it == labels.end()) throw "No such label exists";
+                if (it == labels.end()) throw runtime_error("No such label exists");
                 tok.value = it->second;
             }
         }
@@ -638,7 +638,7 @@ void printTokens(const vector<Token>& tokens) {
         } else if (tok.function == unexpected_endOfProgram) {
             cout << "unexpected_endOfProgram";
         } else {
-            throw "Unexpected token";
+            throw runtime_error("Unexpected token");
         }
         cout << " " << tok.value << endl;
     }
@@ -707,7 +707,7 @@ string whitespace(const string& code, const string& inp = "") {
         funcPtr();
     }
 
-    throw "Programcode ended without control_exit";
+    throw runtime_error("Programcode ended without control_exit");
 }
 
 int main() {
