@@ -144,7 +144,7 @@ void stack_push() {
 }
 
 void stack_duplicate() {
-    if (arg >= mystack.size()) throw runtime_error"Range out of bounds");
+    if (arg >= mystack.size()) throw runtime_error("Range out of bounds");
     mystack.push_back(mystack[mystack.size() - arg - 1]);
     ++pc;
 }
