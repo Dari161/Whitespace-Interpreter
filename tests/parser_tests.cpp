@@ -9,7 +9,6 @@
 namespace WhitespaceTests {
     // Helper to check token function names without exposing private pointers
     void AssertTokenName(const Token& token, const std::string& expectedName) {
-        // Nem példányosítunk objektumot, hanem statikusan hívjuk a WhiteSpaceInterpreter osztályból
         EXPECT_EQ(WhiteSpaceInterpreter::getTokenName(token), expectedName);
     }
 
