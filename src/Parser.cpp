@@ -26,7 +26,7 @@ const int Parser::makeNumber() {
 }
 
 const int Parser::makeLabel() {
-    size_t num = 0;
+    int num = 0;
     while (code[pos] != '\n') {
         if (code[pos] == '\0') throw std::runtime_error("Unexpected end of code");
         // This cannot be a binary representation of table like in makeNumber, since "" and " " are different labels, but in binary, is space is zero they would be equal
@@ -256,7 +256,7 @@ const std::vector<Token> Parser::parse() {
             tok.function == &WhiteSpaceInterpreter::control_jumpIfNegative) {
             std::map<size_t, size_t>::iterator it = labels.find(tok.value);
             if (it == labels.end()) throw std::runtime_error("No such label exists");
-            tok.value = it->second;
+            tok.value = static_cast<int>(it->second);
         }
     }
 

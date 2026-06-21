@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.14)
 project(WhiteSpaceInterpreter)
 
+cmake_policy(SET CMP0092 NEW)
+
+if(MSVC)
+    add_compile_options(/W4)
+else()
+    add_compile_options(-Wall -Wextra)
+endif()
+
 enable_testing()
 
 # Build the main executable
