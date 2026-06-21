@@ -3,13 +3,14 @@ project(WhiteSpaceInterpreter)
 
 enable_testing()
 
-# Fõ alkalmazás fordítása
-# Ha van külön main.cpp fájlod valahol, azt add hozzá ehhez a listához!
+# Build the main executable
+# Add your main.cpp and other source files to this list
 add_executable(whitespace_app
     src/Parser.cpp
     src/Reader.cpp
     src/WhiteSpaceInterpreter.cpp
- "src/main.cpp")
+    src/main.cpp
+)
 
-# Behúzza a tesztek mappáját
+# Include the tests directory
 add_subdirectory(tests)
