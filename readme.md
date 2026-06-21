@@ -50,9 +50,8 @@ Run a script with an input string:
 
 ## Testing
 
-The project includes a comprehensive test suite covering the `Parser`, `Reader`, and the `Interpreter` logic. To run the tests, execute the compiled test binary from your build directory:
+The project includes a comprehensive test suite covering the `Parser`, `Reader`, and the `Interpreter` logic. To run the tests, execute `ctest` from your build directory:
 
 ```sh
-./run_tests
-
+ctest --output-on-failure
 ```
