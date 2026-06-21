@@ -22,4 +22,3 @@ public:
 };
 
 #endif // PARSER_H
-
