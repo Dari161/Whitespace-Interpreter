@@ -99,7 +99,9 @@ void WhiteSpaceInterpreter::arith_add() {
 
 void WhiteSpaceInterpreter::arith_sub() {
     if (s.mystack.size() < 2) throw runtime_error("Must have 2 values on stack to subtract them");
-    s.mystack.push_back(-pop() + pop());
+    int a = pop();
+    int b = pop();
+    s.mystack.push_back(b - a);
     ++s.pc;
 }
 
