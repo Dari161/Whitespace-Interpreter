@@ -5,7 +5,7 @@
 #include "WhiteSpaceInterpreter.h"
 #include "Token.h"
 
-const int Parser::makeNumber() {
+int Parser::makeNumber() {
     int sign;
     switch (code[pos]) {
     case '\t': sign = -1; ++pos; break;
@@ -25,7 +25,7 @@ const int Parser::makeNumber() {
     return sign * num;
 }
 
-const int Parser::makeLabel() {
+int Parser::makeLabel() {
     int num = 0;
     while (code[pos] != '\n') {
         if (code[pos] == '\0') throw std::runtime_error("Unexpected end of code");

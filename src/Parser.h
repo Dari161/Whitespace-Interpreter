@@ -13,8 +13,8 @@ private:
     std::string code;
     size_t pos;
 
-    const int makeNumber();
-    const int makeLabel();
+    int makeNumber();
+    int makeLabel();
 
 public:
     Parser(const std::string& code_) : code(code_), pos(0) {}

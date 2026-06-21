@@ -7,7 +7,7 @@ class Reader {
 private:
 	std::string input;
 	size_t pos;
-	const int hexCharToInt(const char hexChar) const;
+	int hexCharToInt(const char hexChar) const;
 
 public:
 	Reader() = default;
@@ -19,8 +19,8 @@ public:
 		pos = 0;
 	}
 
-	const int readNum();
-	const char readChar();
+	int readNum();
+	char readChar();
 };
 
 #endif // READER_H

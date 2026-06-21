@@ -2,7 +2,8 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <cmath> // for floor()
+#include <cmath>
+#include <algorithm>
 #include "Reader.h"
 #include "WhiteSpaceInterpreter.h"
 #include "Parser.h"
@@ -46,14 +47,14 @@ void WhiteSpaceInterpreter::stack_push() {
 }
 
 void WhiteSpaceInterpreter::stack_duplicate() {
-    if (arg >= s.mystack.size()) throw runtime_error("Range out of bounds");
+    if (arg < 0 || static_cast<size_t>(arg) >= s.mystack.size()) throw runtime_error("Range out of bounds");
     s.mystack.push_back(s.mystack[s.mystack.size() - arg - 1]);
     ++s.pc;
 }
 
 void WhiteSpaceInterpreter::stack_discard() {
-    if (arg < 0 || arg >= s.mystack.size()) { // remove everything but the top value
-        if (s.mystack.size() < 0) throw runtime_error("Stack is empty");
+    if (arg < 0 || static_cast<size_t>(arg) >= s.mystack.size()) { // remove everything but the top value
+        if (s.mystack.empty()) throw runtime_error("Stack is empty");
         int top = pop();
         s.mystack.clear();
         s.mystack.push_back(top);

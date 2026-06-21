@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const int Reader::hexCharToInt(const char hexChar) const {
+int Reader::hexCharToInt(const char hexChar) const {
     if (hexChar >= '0' && hexChar <= '9') return hexChar - '0';
     if (hexChar >= 'A' && hexChar <= 'F') return hexChar - 'A' + 10;
     if (hexChar >= 'a' && hexChar <= 'f') return hexChar - 'a' + 10;
@@ -11,14 +11,14 @@ const int Reader::hexCharToInt(const char hexChar) const {
     throw runtime_error("Invalid hexadecimal character");
 }
 
-const char Reader::readChar() {
+char Reader::readChar() {
     if (input[pos] == '\0') throw runtime_error("Input was empty when trying to read a character");
     char ret = input[pos];
     ++pos;
     return ret;
 }
 
-const int Reader::readNum() {
+int Reader::readNum() {
     if (input[pos] == '\0') throw runtime_error("Input was empty when trying to read number");
     if (input[pos] == '0') {
         ++pos;
