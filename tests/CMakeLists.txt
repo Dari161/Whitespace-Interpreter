@@ -14,10 +14,10 @@ FetchContent_MakeAvailable(googletest)
 add_executable(run_tests 
     reader_tests.cpp
     parser_tests.cpp
+    whitespaceinterpreter_test.cpp
     ../src/Reader.cpp
     ../src/Parser.cpp
-    ../src/WhiteSpaceInterpreter.cpp
-    "whitespaceinterpreter_test.cpp")
+    ../src/WhiteSpaceInterpreter.cpp)
 
 # Include directories for header files
 target_include_directories(run_tests PRIVATE ../src)
