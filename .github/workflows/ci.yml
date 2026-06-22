@@ -15,7 +15,14 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Configure CMake
-      run: cmake -B build
+      run: cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+    - name: Run Clang-Tidy Linter
+      uses: cpp-linter/cpp-linter-action@v2
+      with:
+        style: '' # no check formatting
+        tidy-checks: 'bugprone-*,performance-*,modernize-*,clang-analyzer-*'
+        database: 'build'
 
     - name: Build
       run: cmake --build build
