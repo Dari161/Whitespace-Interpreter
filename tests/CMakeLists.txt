@@ -17,7 +17,8 @@ add_executable(run_tests
     whitespaceinterpreter_test.cpp
     ../src/Reader.cpp
     ../src/Parser.cpp
-    ../src/WhiteSpaceInterpreter.cpp)
+    ../src/WhiteSpaceInterpreter.cpp
+)
 
 # Include directories for header files
 target_include_directories(run_tests PRIVATE ../src)
